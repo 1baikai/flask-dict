@@ -1,0 +1,126 @@
+{% extends 'login.html' %}
+{% block title %}
+query_word
+{% endblock %}
+{% block style %}
+    <style>
+    table{
+        border: 1px solid black;
+        width: 400px;
+        text-align: center;
+        margin:0 auto;
+
+    }
+    #t1{
+        border: 1px solid black;
+        width:50px;
+    }
+    #t2{
+        border: 1px solid black;
+        width:50px;
+    }
+    #t3{
+        border: 1px solid black;
+        width:300px;
+    }
+    </style>
+ {% endblock %}
+
+{% block script %}
+<script src="/static/js/common.js"></script>
+ <script>
+        $(function () {
+            $("#query").click(function () {
+                //获取xhr
+                var xhr = getXhr();
+                //创建请求
+                var word = $('#nword').val();
+                var name = $('#h3').html();
+                {#console.log(word)#}
+                {#console.log(name)#}
+                var url = "/queryword-server?nword="+word+"&name="+name;
+                xhr.open('get',url,true);
+                //设置回调
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200){
+
+                        $("#box").html(xhr.responseText)
+                    }
+                };
+
+                //发送请求
+                xhr.send(null);
+            });
+
+            $('#hist').click(function () {
+                var xhr =getXhr();
+                var name = $('#h3').html();
+                var url = "/query-hist?name="+name;
+                xhr.open('get',url,true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200){
+                        var arr = JSON.parse(xhr.responseText) ;
+                        var html = "";
+                        $.each(arr,function (i,obj) {
+                            html+="<table >";
+                            html+="<tr>";
+                            html+="<td id='t1'>"+obj.name+"<td>";
+                            html+="<td id='t2'>"+obj.word+"<td>";
+                            html+="<td id='t3'>"+obj.time+"<td>";
+                            html+=" </tr>";
+                            html+="</table>";
+                        });
+                        $('#box').html(html);
+                    }
+                };
+                xhr.send(null);
+            });
+
+
+        });
+
+    </script>
+{% endblock %}
+
+{% block h2 %}
+英译英
+    <h3 >欢迎: <span id="h3">{{ name.name }}</span> </h3>
+{% endblock %}
+
+{% block ww %}
+<div id="regist" class="">
+<!-- 		左列结构	 -->
+    <div style="float: left;width:400px;height: 300px;margin-left: 30px;margin-top: 20px">
+			<p>
+                <h3>请输入单词:</h3>
+                <input type="text" id="nword" style="height: 50px;width: 300px ;font-size: 32px;border:1px solid #64A131;
+                                border-radius:5px;">
+			</p>
+        <input id="query" type="button" value="查询" style="width:145px;
+                                height:38px;
+                                border:1px solid #64A131;
+                                border-radius:5px;
+                                background:#64A131;
+                                color:#fff;
+                                font-size:16px;
+                                margin-top: 20px;
+                                margin-left:70px;
+                                text-align: center">
+        <input id="hist" type="button" value="历史记录查询" style="width:145px;
+                                height:38px;
+                                border:1px solid #64A131;
+                                border-radius:5px;
+                                background:#64A131;
+                                color:#fff;
+                                font-size:16px;
+                                margin-top: 20px;
+                                margin-left:70px;
+                                text-align: center">
+    </div>
+<!--		右列结构	 -->
+           <div id="box" style="border:1px solid #8ed30c; height: 300px;width: 440px;float: right">
+
+           </div>
+
+</div>
+{% endblock %}

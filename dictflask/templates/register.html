@@ -1,0 +1,50 @@
+{% extends 'login.html' %}
+
+{% block title %}
+resgist
+{% endblock %}
+
+{% block h2 %}
+ 用户注册
+{% endblock %}
+
+ {% block script %}
+     <script>
+        $(function () {
+            $('#Loginbtn').click(function () {
+                location.href='/login'
+            })
+        })
+     </script>
+ {% endblock %}
+
+{% block form %}
+<form method="post" action="/register">
+<!-- 		第一行		 -->
+				<div id="" class="form-line">
+					<p>用户名</p>
+					<div id="" class="">
+						<input class="form-control" type="text" name="name">
+					</div>
+				</div>
+				<div id="" class="form-line">
+					<p>密码</p>
+					<div id="" class="">
+						<input class="form-control" type="password" name="passwd" placeholder="请输入6-20位的数字字符" maxlength="20">
+					</div>
+				</div>
+                <div id="" class="form-line">
+					<p>确认密码</p>
+					<div id="" class="">
+						<input class="form-control" type="password" name="passwd1" placeholder="请输入6-20位的数字字符" maxlength="20">
+					</div>
+				</div>
+
+				<div id="" class="form-line">
+					<p></p>
+					<div id="" class="">
+						<input class="loginBtn btn" type="submit" value="注册"><input class="registBtn btn" type="button" value="用户登录" id="Loginbtn">
+					</div>
+				</div>
+			</form>
+{% endblock %}
